@@ -1,0 +1,14 @@
+# Linear separability of failure modes in pre-answer hidden states
+
+Model: Qwen2.5-3B-Instruct on GSM8K. Pre-answer hidden state = last token before the '####' answer marker.
+Labels (greedy-wrong only): slip = >=1 of K=6 samples correct (capability present); cannot = 0/K correct.
+Probe: logistic regression on PCA-256 of the residual, 5-fold OOF, best layer by AUC. Bootstrap 2000, seed 42. Chance AUC = 0.5.
+
+## Pre-answer probe: slip vs cannot-solve (5-fold OOF AUC, best layer)
+  AUC = 0.6547  (95% CI 0.5494-0.7547, n=136)
+
+## Pre-answer probe: shuffle-label null for slip vs cannot-solve
+  AUC mean = 0.4943  (95% null interval 0.3764-0.6294, n=100)
+
+## Pre-answer probe: correct vs wrong (5-fold OOF AUC, best layer; sanity)
+  AUC = 0.7600  (95% CI 0.7128-0.8057, n=800)

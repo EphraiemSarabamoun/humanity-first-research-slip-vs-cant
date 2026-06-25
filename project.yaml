@@ -1,0 +1,34 @@
+name: slip-vs-cant
+title: "Pre-Answer Hidden States Linearly Distinguish 'Cannot Solve' from 'Solved but Slipped', Modestly: an Error-Awareness Probe on GSM8K"
+question: >
+  When a model answers a math problem incorrectly, the failure can be a genuine
+  inability to solve it or a slip in execution on a problem it can solve. Does the
+  model linearly represent which kind of failure is underway before it commits to
+  an answer? We label greedy-wrong GSM8K problems by self-consistency (sampled K=6
+  times: 'slip' if at least one sample is correct, 'cannot' if none are) and train a
+  linear probe on the pre-answer hidden state (the last token before the answer
+  marker) of Qwen2.5-3B-Instruct to separate the two, against a correct-vs-wrong
+  sanity probe and a shuffle-label null.
+stage: write
+status: >
+  Real run complete (RTX 5090). Modest but significant positive result: the
+  pre-answer probe separates slip from cannot-solve at AUC 0.6547 (best layer 31,
+  95 percent CI 0.5494 to 0.7547, n=136), with the CI excluding chance and the
+  observed AUC above the shuffle-null upper bound (null mean 0.4943, 95 percent
+  interval 0.3764 to 0.6294). The correct-vs-wrong sanity probe is well above chance
+  (AUC 0.7600, n=800), confirming the pre-answer state carries correctness signal.
+  The cannot-solve class is small (37 of 136 wrong items), so the CI is wide, and
+  the self-consistency label plausibly conflates failure mode with problem difficulty.
+tags:
+  - error-awareness
+  - interpretability
+  - probing
+  - hidden-states
+  - self-consistency
+  - ai-safety
+collaborators:
+  - "Ephraiem Sarabamoun"
+links:
+  code_local: "~/projects/slip-vs-cant"
+  compute: "RTX 5090, torch 2.12 cu130; Qwen2.5-3B-Instruct; GSM8K"
+references_bib: references.bib

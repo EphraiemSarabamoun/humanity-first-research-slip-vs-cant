@@ -1,0 +1,111 @@
+@article{kadavath2022know,
+  title={Language Models (Mostly) Know What They Know},
+  author={Kadavath, Saurav and Conerly, Tom and Askell, Amanda and Henighan, Tom and Drain, Dawn and Perez, Ethan and Schiefer, Nicholas and Hatfield-Dodds, Zac and DasSarma, Nova and others},
+  eprint={2207.05221}, archivePrefix={arXiv}, year={2022},
+  annote={Models carry calibrated self-knowledge of whether they will be correct; the behavioral basis for expecting a pre-answer failure-mode signal.}
+}
+
+@article{burns2022ccs,
+  title={Discovering Latent Knowledge in Language Models Without Supervision},
+  author={Burns, Collin and Ye, Haotian and Klein, Dan and Steinhardt, Jacob},
+  eprint={2212.03827}, archivePrefix={arXiv}, year={2022},
+  annote={Latent correctness-relevant structure is linearly recoverable from activations; the premise our pre-answer probe builds on.}
+}
+
+@article{marks2023geometry,
+  title={The Geometry of Truth: Emergent Linear Structure in Large Language Model Representations of True/False Datasets},
+  author={Marks, Samuel and Tegmark, Max},
+  eprint={2310.06824}, archivePrefix={arXiv}, year={2023},
+  annote={Linear separability of true/false in activations; methodological template for our linear failure-mode probe.}
+}
+
+@article{azaria2023internal,
+  title={The Internal State of an LLM Knows When It's Lying},
+  author={Azaria, Amos and Mitchell, Tom},
+  eprint={2304.13734}, archivePrefix={arXiv}, year={2023},
+  annote={Hidden states predict statement falsehood; precedent that internal states encode error-relevant information before output.}
+}
+
+@article{li2023iti,
+  title={Inference-Time Intervention: Eliciting Truthful Answers from a Language Model},
+  author={Li, Kenneth and Patel, Oam and Vi{\'e}gas, Fernanda and Pfister, Hanspeter and Wattenberg, Martin},
+  eprint={2306.03341}, archivePrefix={arXiv}, year={2023},
+  annote={Truthfulness-related directions are linear and steerable; supports reading a failure-mode direction from activations.}
+}
+
+@article{zou2023repe,
+  title={Representation Engineering: A Top-Down Approach to AI Transparency},
+  author={Zou, Andy and Phan, Long and Chen, Sarah and Campbell, James and Guo, Phillip and Ren, Richard and Pan, Alexander and Yin, Xuwang and Mazeika, Mantas and others},
+  eprint={2310.01405}, archivePrefix={arXiv}, year={2023},
+  annote={Reads high-level concepts as activation directions; frames our probe as reading a failure-mode concept.}
+}
+
+@article{manakul2023selfcheck,
+  title={SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models},
+  author={Manakul, Potsawee and Liusie, Adian and Gales, Mark JF},
+  eprint={2303.08896}, archivePrefix={arXiv}, year={2023},
+  annote={Sampling consistency flags unreliable outputs; the behavioral signal behind our self-consistency slip/cannot labels.}
+}
+
+@article{kuhn2023semantic,
+  title={Semantic Uncertainty: Linguistic Invariances for Uncertainty Estimation in Natural Language Generation},
+  author={Kuhn, Lorenz and Gal, Yarin and Farquhar, Sebastian},
+  eprint={2302.09664}, archivePrefix={arXiv}, year={2023},
+  annote={Sampling-based uncertainty distinguishes confident from unreliable answers; our cannot-vs-slip label is a discrete form of this.}
+}
+
+@article{wang2022selfconsistency,
+  title={Self-Consistency Improves Chain of Thought Reasoning in Language Models},
+  author={Wang, Xuezhi and Wei, Jason and Schuurmans, Dale and Le, Quoc and Chi, Ed and Narang, Sharan and Chowdhery, Aakanksha and Zhou, Denny},
+  eprint={2203.11171}, archivePrefix={arXiv}, year={2022},
+  annote={Multiple samples reveal whether a model can reach the answer; the method we use to separate capability from a single slipped run.}
+}
+
+@article{cobbe2021gsm8k,
+  title={Training Verifiers to Solve Math Word Problems},
+  author={Cobbe, Karl and Kosaraju, Vineet and Bavarian, Mohammad and Chen, Mark and Jun, Heewoo and Kaiser, Lukasz and Plappert, Matthias and Tworek, Jerry and Hilton, Jacob and Nakano, Reiichiro and others},
+  eprint={2110.14168}, archivePrefix={arXiv}, year={2021},
+  annote={GSM8K, our task and the source of clean integer answers for automatic correctness checks.}
+}
+
+@article{wei2022cot,
+  title={Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
+  author={Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Ichter, Brian and Xia, Fei and Chi, Ed and Le, Quoc and Zhou, Denny},
+  eprint={2201.11903}, archivePrefix={arXiv}, year={2022},
+  annote={Step-by-step reasoning is where execution slips occur; the setting our pre-answer probe sits in.}
+}
+
+@article{turpin2023saywhat,
+  title={Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting},
+  author={Turpin, Miles and Michael, Julian and Perez, Ethan and Bowman, Samuel R},
+  eprint={2305.04388}, archivePrefix={arXiv}, year={2023},
+  annote={Output can hide the true internal computation; motivates probing internal states rather than the stated answer.}
+}
+
+@article{lanham2023measuring,
+  title={Measuring Faithfulness in Chain-of-Thought Reasoning},
+  author={Lanham, Tamera and Chen, Anna and Radhakrishnan, Ansh and Steiner, Benoit and Denison, Carson and Hernandez, Danny and Li, Dustin and Durmus, Esin and Hubinger, Evan and Kernion, Jackson and others},
+  eprint={2307.13702}, archivePrefix={arXiv}, year={2023},
+  annote={Distinguishing genuine reasoning from post-hoc answers; the broader faithfulness question our failure-mode distinction touches.}
+}
+
+@article{park2023linearrep,
+  title={The Linear Representation Hypothesis and the Geometry of Large Language Models},
+  author={Park, Kiho and Choe, Yo Joong and Veitch, Victor},
+  eprint={2311.03658}, archivePrefix={arXiv}, year={2023},
+  annote={Formalizes concepts as linear directions; grounds the choice of a linear probe for the failure-mode distinction.}
+}
+
+@article{guo2017calibration,
+  title={On Calibration of Modern Neural Networks},
+  author={Guo, Chuan and Pleiss, Geoff and Sun, Yu and Weinberger, Kilian Q},
+  eprint={1706.04599}, archivePrefix={arXiv}, year={2017},
+  annote={Confidence calibration; the cannot-vs-slip distinction is closely related to whether the model is internally confident it can solve the item.}
+}
+
+@article{qwen2024report,
+  title={Qwen2.5 Technical Report},
+  author={Yang, An and Yang, Baosong and Zhang, Beichen and Hui, Binyuan and Zheng, Bo and Yu, Bowen and Li, Chengyuan and Liu, Dayiheng and Huang, Fei and Wei, Haoran and others},
+  eprint={2412.15115}, archivePrefix={arXiv}, year={2024},
+  annote={Model card for Qwen2.5-3B-Instruct, the model probed.}
+}

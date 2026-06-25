@@ -1,0 +1,8 @@
+metric,value,n
+slip_vs_cant_auc_L14,0.636910,136
+slip_vs_cant_auc_L20,0.551188,136
+slip_vs_cant_auc_L25,0.608245,136
+slip_vs_cant_auc_L31,0.654655,136
+slip_vs_cant_auc_L36,0.654109,136
+best_layer,31,136
+slip_vs_cant_null_mean,0.494251,100

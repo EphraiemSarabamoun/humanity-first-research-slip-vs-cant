@@ -1,0 +1,6 @@
+metric,value,n
+correct_vs_wrong_auc_L14,0.750875,800
+correct_vs_wrong_auc_L20,0.778338,800
+correct_vs_wrong_auc_L25,0.778692,800
+correct_vs_wrong_auc_L31,0.759977,800
+correct_vs_wrong_auc_L36,0.761483,800

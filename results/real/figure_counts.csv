@@ -1,0 +1,6 @@
+metric,value,n
+n_correct,664,800
+n_wrong,136,800
+n_slip,99,800
+n_cannot,37,800
+greedy_accuracy,0.830000,800

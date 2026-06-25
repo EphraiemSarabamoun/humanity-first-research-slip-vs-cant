@@ -1,0 +1,194 @@
+{
+ "plain": "When a model gets a math problem wrong, it can be because it genuinely cannot do it, or because it can do it but slipped on this attempt. We asked whether the model's internal state, just before it gives an answer, tells these two cases apart. We labelled wrong answers by sampling the model several times (slip = it got it right at least once, cannot = never), then trained a simple detector on the internal state. The clear finding is that the pre-answer state strongly signals whether the answer will be right at all. The finer slip-versus-cannot distinction is only weakly present: it looks significant at first, but once we correct for having picked the best of several internal layers, it is borderline (p about 0.04) and likely mixed up with how hard the problem is. Approve publishes it as an honest, carefully-caveated result; Reject shelves it.",
+ "cost": {
+  "api_equivalent_usd": 153.1871,
+  "sessions": [
+   {
+    "label": "research-prime-driver",
+    "host": "local",
+    "transcript": "/tmp/slip-driver.jsonl",
+    "messages": 534,
+    "usd": 153.1871
+   }
+  ]
+ },
+ "paper_title": "Pre-Answer States Encode Correctness but Only Marginally Separate 'Cannot Solve' from 'Slipped': A Selection-Corrected Probe on GSM8K",
+ "headline_claim": "On Qwen2.5-3B-Instruct on GSM8K, the pre-answer hidden state robustly encodes correctness (correct-vs-wrong probe AUC 0.76, n=800). Within wrong answers, a linear probe separates self-consistency-labeled 'slipped' from 'cannot solve' at AUC 0.6547 (best of 5 layers, n=136), but under a selection-matched permutation null (best layer re-selected per shuffle) this gives only p=0.040 and sits below the null's 97.5th percentile (0.659), so the failure-mode separation is marginal and selection-sensitive, not an established effect, and is likely entangled with problem difficulty.",
+ "weakest_part": "The slip-vs-cannot separation, the paper's titular question, is marginal and I now say so. The reviewer panel correctly flagged that my first-draft significance ('above the shuffle null') used a null computed at the single best-of-five-layers position, not selection-matched; when I rebuild the null to re-select the best layer on each shuffle, the observed 0.6547 gives p=0.040 and reaches only ~the 96th percentile, below the selection-matched 97.5th percentile (0.659), so the effect does not clear the corrected upper bound. Beyond selection: (1) the 'cannot' class is small (37 of 136 wrong items), giving a wide CI; (2) most important conceptually, the self-consistency label conflates failure mode with problem difficulty and model confidence, so the probe may read a graded difficulty/confidence axis rather than a categorical slip-vs-cannot representation, and I did not run the difficulty-matched control that would separate them; (3) the pre-answer position is heuristic (last token before '####'); (4) one model, one task. The robust, non-marginal part is the correct-vs-wrong signal (AUC 0.76). I reframed title, abstract, and claims from 'modest significant positive' to 'marginal, selection-sensitive' in response to the panel.",
+ "gate_report": {
+  "project_dir": "/home/ephra/projects/slip-vs-cant",
+  "generated_at": "2026-06-24T23:21:48+00:00",
+  "checks": [
+   {
+    "name": "artifacts",
+    "status": "warn",
+    "detail": "required present; recommended absent: analysis_points.csv, analysis_tests.csv"
+   },
+   {
+    "name": "metric_consistency",
+    "status": "pass",
+    "detail": "[generic parser] 8 values all traced into paper.md"
+   },
+   {
+    "name": "recompute",
+    "status": "pass",
+    "detail": "recompute.py output is identical to analysis_summary.txt (whitespace-normalized) \u2014 every number independently reproduced"
+   },
+   {
+    "name": "csv_traceability",
+    "status": "pass",
+    "detail": "4 metric(s) trace to 2 documented data file(s) with complete sidecars"
+   },
+   {
+    "name": "eval_order",
+    "status": "pass",
+    "detail": "eval_order present and filled in: eval_points.jsonl"
+   },
+   {
+    "name": "citations",
+    "status": "pass",
+    "detail": "16/16 eprints resolve, titles match"
+   },
+   {
+    "name": "reference_count",
+    "status": "pass",
+    "detail": "16 references (distinct keys cited in the draft and present in the bib)"
+   },
+   {
+    "name": "device_scrub",
+    "status": "pass",
+    "detail": "no fleet device names in paper.md/paper.tex"
+   },
+   {
+    "name": "figures",
+    "status": "pass",
+    "detail": "4 figures referenced in paper.md, all on disk with CSV + description sidecars"
+   },
+   {
+    "name": "tex_compiles",
+    "status": "skipped",
+    "detail": "no drafts/paper.tex"
+   },
+   {
+    "name": "style",
+    "status": "pass",
+    "detail": "no em dashes, double hyphens, or bullets"
+   }
+  ],
+  "overall": "pass",
+  "not_checked": [
+   "statistical methodology (test choice, assumptions, multiple comparisons)",
+   "claim/evidence fit \u2014 whether the prose claims more than the numbers support",
+   "novelty against the literature",
+   "code correctness beyond the recompute hook"
+  ]
+ },
+ "reviewer_panel": {
+  "project_dir": "/home/ephra/projects/slip-vs-cant",
+  "draft": "drafts/paper.md",
+  "generated_at": "2026-06-24T22:51:46+00:00",
+  "cli": "claudius",
+  "model": "cli-default",
+  "prompt_version": "b8ba148a6536",
+  "advisory": true,
+  "passes": [
+   {
+    "lens": "design_validity",
+    "ok": true,
+    "overall_verdict": "Would not fight for acceptance as-is: the headline significance rests on a null that is not selection-matched to the observed statistic, and the single control that would distinguish a 'failure-mode' axis from a generic confidence axis was never run despite the materials containing everything needed to run it.",
+    "n_findings": 3
+   },
+   {
+    "lens": "measurement",
+    "ok": true,
+    "overall_verdict": "Lean reject as-is: the headline 'significant above the shuffle null' rests on a 0.6547-vs-0.6294 margin where the observed AUC is a max over 5 layers but the null is computed at the single selected layer, so the central significance claim is untested against the selection that produced it; fix the null to re-select the best layer per draw before claiming the effect clears chance.",
+    "n_findings": 3
+   },
+   {
+    "lens": "claims",
+    "ok": true,
+    "overall_verdict": "I would not fight for acceptance as written: the entire significance claim rests on a null and CI computed at a layer chosen post hoc to maximize the effect, and the observed value clears that null by only 0.025, so the headline 'real signal above null' is not established until the selection is folded into the null.",
+    "n_findings": 4
+   }
+  ],
+  "findings": [
+   {
+    "lens": "design_validity",
+    "severity": "high",
+    "claim_attacked": "the observed 0.6547 sits above the null's upper bound, so the signal is not an artifact of the cross-validation or the class imbalance",
+    "why": "The observed statistic and the null statistic are computed differently. The reported 0.6547 is the maximum over five layers (figure_main.csv: L14 0.6369, L20 0.5512, L25 0.6082, L31 0.6547, L36 0.6541; best_layer=31 selected by max AUC). But null_dist.csv.md states each null draw is 'the AUC of the slip-vs-cant probe AT THE BEST LAYER after shuffling the labels' \u2014 i.e. shuffled labels evaluated at the fixed layer 31, with no re-selection of the max over the five layers per shuffle. So the observed value went through a max-over-5 selection that the null did not. The per-layer spread is ~0.10 (0.5512 to 0.6547), so a selection-matched null would have a materially higher upper tail, and the observed value clears the current null upper bound (0.6294) by only 0.0253. The same asymmetry contaminates the CI: the bootstrap (0.5494 to 0.7547) is computed at the post-hoc-selected layer 31, so the lower bound 0.5494 \u2014 the entire basis for 'the interval excludes 0.5' \u2014 is post-selection optimistic and only 0.0494 above chance.",
+    "suggested_fix": "Recompute the null as the max over the same five layers within each of the 100 shuffles (and the bootstrap with the layer re-selected inside each resample, or via nested CV that selects the layer on the training folds only). Report whether 0.6547 still exceeds the selection-matched null's upper bound and whether the CI lower bound still exceeds 0.5. If a pre-registered single layer is preferred, fix it before seeing AUCs and report that layer's value, not the max."
+   },
+   {
+    "lens": "design_validity",
+    "severity": "high",
+    "claim_attacked": "the more delicate finding is that, within the wrong answers, it carries graded information about whether the model could have been right",
+    "why": "The paper concedes the self-consistency label conflates failure mode with difficulty/confidence, then proceeds as if the slip-vs-cant probe is a finding distinct from and 'on top of' the correct-vs-wrong probe (AUC 0.7600). But a cannot (0/6 correct) is simply further along the same 'P(correct)/confidence' axis than a slip (>=1/6 correct), so the 0.6547 separation may be entirely recovered by the already-trained correct-vs-wrong direction with NO failure-mode-specific axis at all. The hedge ('graded capability-or-difficulty signal') does not neutralize this, because the abstract, Section 3, and the conclusion still sell a within-wrong slip-vs-cant separation as a second, finer result \u2014 if that separation is just the correctness/confidence projection, there is no second result and the oversight motivation (flag recoverable slips vs knowledge gaps) collapses into 'estimate confidence / sample more.' The decisive control is absent.",
+    "suggested_fix": "Take the correct-vs-wrong probe's decision direction (trained without using slip/cannot labels), score only the 136 wrong items on it, and report its slip-vs-cant AUC. If that is ~0.65, the slip-vs-cant probe learns no new axis and the paper should say so. Additionally compare against a trivial baseline that uses only the K=6 sample-correct count (or a held-out difficulty estimate) to predict slip vs cannot, to show the hidden state adds information beyond the label-generating signal itself."
+   },
+   {
+    "lens": "measurement",
+    "severity": "high",
+    "claim_attacked": "the observed 0.6547 sits above the null's upper bound, so the signal is not an artifact of the cross-validation or the class imbalance",
+    "why": "The observed 0.6547 is the maximum over five layer AUCs (L14=0.6369, L20=0.5512, L25=0.6082, L31=0.6547, L36=0.6541; figure_main.csv, best_layer selected by AUC). But the shuffle null (null_dist.csv.md: 'AUC of the slip-vs-cant probe at the best layer after shuffling the labels') is computed at the fixed selected layer per draw, not by re-selecting the max over five layers each shuffle. So the observed statistic includes a max-over-5-correlated-layers selection that the null distribution does not, biasing the comparison toward significance. The reported margin is tiny: observed 0.6547 vs null 97.5-percentile 0.6294 \u2014 a gap of 0.025 \u2014 and the upper tail of the null is estimated from only ~2-3 of 100 draws (the first 25 draws shown top out near 0.577), so the bound itself is high-variance. Even modest max-selection inflation across five correlated layers (the curve already swings 0.55-0.65 under the real labels) plausibly lifts a proper max-over-layers null past 0.6547, erasing the headline. The same selection point also voids 'not an artifact of class imbalance': the null only controls imbalance at the fixed layer.",
+    "suggested_fix": "Recompute the shuffle null as the max over all five layers per permutation (the same selection rule used for the observed value), then report the empirical p as the fraction of those max-nulls exceeding 0.6547. Increase null draws from 100 to >=2000 so the upper tail is estimable. State whether the effect still clears chance under the matched null; if a single layer is pre-registered instead, report that layer's AUC and CI rather than the max."
+   },
+   {
+    "lens": "claims",
+    "severity": "high",
+    "claim_attacked": "the observed 0.6547 sits above the null's upper bound, so the signal is not an artifact of the cross-validation or the class imbalance",
+    "why": "This is the strongest-sounding claim in the paper, and the null does not match the statistic it is testing. The headline 0.6547 is the MAXIMUM over five probed layers (curve.csv: L14=0.6369, L20=0.5512, L25=0.6082, L31=0.6547, L36=0.6541), and layer 31 was selected because it maximized the real-label AUC. But the shuffle null is computed 'at the best layer' only (analysis_summary.txt; null_dist.csv is keyed solely to slip_vs_cant_null at one layer), so each of the 100 permutations is scored at the fixed winning layer rather than re-running the same max-over-five-layers selection. A max-over-five null is necessarily right-shifted: the real per-layer AUCs already span ~0.10, and the single-layer null upper bound is already 0.6294, only 0.0253 below the observed 0.6547. Taking the max of five correlated shuffle AUCs would plausibly push the null's 97.5th percentile above 0.6547 and erase the claimed separation. The same flaw contaminates the 'CI excludes 0.5' claim: the lower bound 0.5494 is a bootstrap CI at the post-selected layer, not corrected for the layer search. With only 100 null draws, 'above the upper bound' is anchored to the ~2nd-3rd largest shuffle value, an unstable threshold. So neither the null nor the CI currently licenses 'significant' or 'not an artifact.'",
+    "suggested_fix": "Recompute the null with the identical selection procedure: for each of (ideally >=1000) label shuffles, refit the probe at all five layers and take the max AUC; report the observed 0.6547 against the distribution of that max, and the fraction of max-selected nulls >= 0.6547 as the p-value. Report a selection-corrected CI (e.g., nested CV that includes layer choice in the inner loop). State the empirical p-value explicitly rather than 'above the upper bound.'"
+   },
+   {
+    "lens": "design_validity",
+    "severity": "medium",
+    "claim_attacked": "The pre-answer hidden state is the residual stream at the last token before the '####' marker, obtained by re-encoding the prompt and the model's own reasoning truncated before the answer",
+    "why": "The probed vector is the final-position residual of a variable-length reasoning trace, so it aggregates the entire greedy trace that preceded it. Cannot items (37) are, by construction, harder and plausibly produce longer or more meandering reasoning than slips (99); the last-token state would then encode trace length, position, or surface content of the reasoning text rather than any 'error-awareness' representation. The materials give no evidence that trace length, token count, or the identity of the pre-#### token is balanced across the two classes, so the probe could be reading 'how long/messy was the scratch work' \u2014 a confound the difficulty hedge names abstractly but never quantifies.",
+    "suggested_fix": "Report the distribution of pre-#### reasoning token length (and the last pre-#### token) by class; show whether a probe on length alone separates slip from cannot, and whether the hidden-state AUC survives partialling out length (e.g., length-matched subsampling or including length as a nuisance feature). If AUC drops to chance after controlling for length, the headline is a trace-length artifact."
+   },
+   {
+    "lens": "measurement",
+    "severity": "medium",
+    "claim_attacked": "AUC 0.6547 at the best layer (95 percent CI 0.5494 to 0.7547, n=136); the interval excludes the chance value of 0.5, so the separation is significant at this sample size",
+    "why": "Two compounding problems make 'excludes 0.5' unreliable. (1) The CI is a percentile bootstrap on the layer that was chosen to maximize AUC, so it inherits the same selection bias as Finding 1 and is optimistically shifted; the true post-selection lower bound is lower than 0.5494, which sits only 0.05 above chance. (2) The bootstrap resamples n=136 with only 37 cannot items (curve.csv n_cannot=37); percentile-bootstrap AUC intervals with a ~27% minority class have poor coverage because many resamples contain very few cannots, so the nominal 95% interval does not deliver 95% coverage. The conclusion 'significant' is drawn from a boundary-grazing lower limit produced by a procedure whose coverage the data (small, imbalanced, selected) visibly undermines.",
+    "suggested_fix": "Report a CI that accounts for layer selection (nested/holdout: select layer on a split disjoint from the one the CI is computed on, or report the CI of the pre-registered layer). Use a stratified bootstrap and verify coverage by simulation at n=136 with 37/99 split; alternatively report DeLong's CI for AUC. Re-state significance only if the corrected lower bound exceeds 0.5."
+   },
+   {
+    "lens": "measurement",
+    "severity": "medium",
+    "claim_attacked": "Figure 1 shows the AUC rising into the mid-to-late layers, consistent with a representation that forms as the model works toward the answer",
+    "why": "The per-layer data contradict a monotone rise. figure_main.csv: L14=0.6369, L20=0.5512, L25=0.6082, L31=0.6547, L36=0.6541. The earliest probed layer (L14) is the second-highest value and is higher than both L20 and L25; the curve dips to near-chance at L20 before recovering. This is a non-monotone, noisy profile across five correlated layers, not a depth trend; an early layer nearly matching the peak is the opposite of 'forms as the model works toward the answer.' The narrative selectively reads a smooth rise into a jagged five-point curve and thereby lends spurious mechanistic meaning to what looks like layer-to-layer noise \u2014 which is exactly the noise the max-selection in Finding 1 exploits.",
+    "suggested_fix": "Drop the 'rises into mid-to-late layers' interpretation or support it with per-layer CIs showing L31 is distinguishable from L14; given L14 approx L31, report whether any layer-to-layer difference exceeds its own bootstrap interval. If the profile is within-noise-flat, say so and treat 'best layer' purely as a selection artifact, not evidence of representation formation."
+   },
+   {
+    "lens": "claims",
+    "severity": "medium",
+    "claim_attacked": "Title: 'Pre-Answer Hidden States Linearly Distinguish Cannot Solve from Solved but Slipped' vs Discussion: 'the probe may be reading a graded capability-or-difficulty signal ... rather than a categorical slip-versus-cannot representation; we cannot separate these here'",
+    "why": "The title and the framing of the contribution assert that the probe distinguishes the two named failure modes (slip vs cannot), but the authors' own honest reading concedes the probe most likely tracks difficulty/confidence, not the slip-vs-cannot construct. The hedge 'Modestly' in the title only qualifies effect MAGNITUDE (AUC size); it does not qualify WHAT is being distinguished. So the construct-validity concession in Section 4 is not immunized by 'modestly' \u2014 a reader who stops at the title (the most-read sentence) takes away exactly the claim the paper says it cannot support. Because self-consistency operationally equates 'cannot' with 'never solved in 6 tries' (= hard/low-confidence), the title's named distinction is precisely the inference the design cannot license.",
+    "suggested_fix": "Retitle to match the conceded reading, e.g. 'Pre-Answer Hidden States Carry a Graded Capability/Difficulty Signal That Separates Self-Consistency Failure Labels on GSM8K,' or add a difficulty-matched control (compare slip vs cannot at matched K-sample correctness rates / matched prompt-length or solve-probability bins) that would let the title's categorical claim survive."
+   },
+   {
+    "lens": "claims",
+    "severity": "medium",
+    "claim_attacked": "Figure 1 shows the AUC rising into the mid-to-late layers, consistent with a representation that forms as the model works toward the answer.",
+    "why": "The per-layer data (figure_main.csv / curve.csv) is non-monotonic and within noise, not a rise: L14=0.637 (earliest probed) is already nearly the peak and HIGHER than L20=0.551 and L25=0.608; it then dips and recovers to L31=0.655, L36=0.654. The earliest layer being second-highest directly contradicts 'a representation that forms as the model works toward the answer.' All five AUCs sit inside the reported best-layer CI (0.5494-0.7547, n=136), so no two layers are statistically distinguishable; the 'rise' is a narrative imposed on bootstrap noise. This same noise is what makes the best-layer selection (Finding A) load-bearing.",
+    "suggested_fix": "Either drop the developmental-trajectory interpretation, or support it: plot per-layer bootstrap CIs and test whether late-layer AUC exceeds early-layer AUC on paired bootstrap resamples. If L14 is not separable from L31, state that the layer profile is flat within noise and remove 'rising into the mid-to-late layers.'"
+   },
+   {
+    "lens": "claims",
+    "severity": "medium",
+    "claim_attacked": "For error-aware oversight this is encouraging, because it suggests recoverable slips are at least partially distinguishable from genuine incapacity before the answer is emitted.",
+    "why": "The practical recommendation outruns the operating characteristics. AUC 0.6547 (lower CI 0.55, and weaker once selection-corrected per Finding A) on a 37-cannot / 99-slip split gives poor precision for flagging the minority 'cannot' class at any useful recall: a monitor at this AUC and base rate cannot separate recoverable slips from knowledge gaps at a rate an oversight pipeline could act on. 'Encouraging' and 'partially distinguishable' are doing a lot of work for a discriminator barely above chance on n=136. The sanity probe (0.76 correct-vs-wrong) does not transfer to this claim, because slip-vs-cannot is trained only on wrong items where that correctness axis is by construction absent.",
+    "suggested_fix": "Replace the oversight framing with the achievable operating point: report precision/recall (or cost curves) for flagging 'cannot' at fixed recall under the 37:99 base rate, and state the minimum AUC an oversight use would require. If the achievable precision is low, say so and frame the result as a scientific existence claim, not a deployment recommendation."
+   }
+  ]
+ },
+ "not_checked": [
+  "a difficulty-matched control to separate a slip-vs-cannot representation from a generic difficulty/confidence axis (the key missing experiment)",
+  "a pre-registered single probe layer (to avoid layer-selection inflation entirely)",
+  "more 'cannot' items (larger N or a harder task) to narrow the wide interval",
+  "more samples per problem (K>6) to denoise the cannot label",
+  "larger models and tasks beyond GSM8K; a causal intervention on the putative direction"
+ ]
+}
